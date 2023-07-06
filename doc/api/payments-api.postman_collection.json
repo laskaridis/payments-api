@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "45948ed6-07ed-4daa-b6c9-3136e2be6e69",
+		"name": "payments-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "216096"
+	},
+	"item": [
+		{
+			"name": "Register user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"jane@localhost\",\n    \"full_name\": \"Jane Doe\",\n    \"password\": \"letjanepass\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"jane@localhost\",\n    \"password\": \"letjanepass\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/logins",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"logins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find all clearing costs",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/clearing_costs",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clearing_costs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create clearing cost",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clearing_cost_amount\": 10.50,\n    \"clearing_cost_currency\": \"EUR\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/countries/eg/clearing_cost",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"countries",
+						"eg",
+						"clearing_cost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find clearing cost",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/countries/eg/clearing_cost",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"countries",
+						"eg",
+						"clearing_cost"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update clearing cost",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clearing_cost_amount\": 20.50,\n    \"clearing_cost_currency\": \"EUR\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/countries/eg/clearing_cost",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"countries",
+						"eg",
+						"clearing_cost"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find credit card clearing cost",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card_number\": \"40324412\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/payment-cards-cost",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"payment-cards-cost"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find card issuer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/card_issuer/403244",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"card_issuer",
+						"403244"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete clearing cost",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/countries/eg/clearing_cost",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"countries",
+						"eg",
+						"clearing_cost"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

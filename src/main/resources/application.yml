@@ -1,0 +1,55 @@
+server:
+  # The service port
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    # the service name
+    name: ${SERVICE_NAME:payments-service}
+  datasource:
+    # Database connection url
+    url: ${JDBC_URL:jdbc:postgresql:payments}
+    # Database username
+    username: ${JDBC_USER:payments}
+    # Database user password
+    password: ${JDBC_PASS:payments}
+  jpa:
+    # Logs sql statements
+    show-sql: ${JPA_SHOW_SQL:true}
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/migrations/migrations.xml
+
+logging:
+  level:
+    org:
+      springframework:
+        # Uncomment the following line to debug security:
+        # security: DEBUG
+        # Uncomment the following line to debug db transactions:
+        # orm.jpa.JpaTransactionManager: DEBUG
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: "/api"
+  swagger-ui:
+    path: "/swagger-ui"
+
+bintable:
+  # API key for the bintable service
+  apiKey: ${BINTABLE_API_KEY:4a91b27976df72a2da27627e71e410b2795e79e7}
+  # Base url of the bintable service
+  baseUrl: ${BINTABLE_BASE_URL:https://api.bintable.com/v1}
+  # Connection timeout for the client connecting to the bintable service
+  connectTimeoutMillis: ${BINTABLE_CONNECT_TIMEOUT_MILLIS:5000}
+  # Read timeout for the client connecting to the bintable service
+  readTimeoutMillis: ${BINTABLE_READ_TIMEOUT_MILLIS:5000}
+  # Write timeout for the client connecting to the bintable service
+  writeTimeoutMillis: ${BINTABLE_WRITE_TIMEOUT_MILLIS:5000}
+
+jwt:
+  rsaPublicKey: classpath:rsa.public.key
+  rsaPrivateKey: classpath:rsa.private.key
+

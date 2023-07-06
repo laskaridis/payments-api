@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test_db
+    driverClassName: org.h2.Driver
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+  jpa:
+    show-sql: false
+    hibernate:
+      # ddl-auto: none
+  liquibase:
+    change-log: classpath:db/migrations/migrations.xml
+
+logging:
+  root:
+    level: ERROR
+
+jwt:
+  rsaPublicKey: classpath:rsa.public.key
+  rsaPrivateKey: classpath:rsa.private.key

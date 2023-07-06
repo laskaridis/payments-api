@@ -1,0 +1,1 @@
+package it.laskaridis.payments.common.view.json;
