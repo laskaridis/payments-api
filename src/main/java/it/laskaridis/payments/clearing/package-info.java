@@ -16,4 +16,5 @@
  *       By default a JSON format is used.</li>
  * </ul>
  */
+@org.springframework.lang.NonNullApi
 package it.laskaridis.payments.clearing;

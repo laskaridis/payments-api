@@ -11,4 +11,5 @@
  *       them into domain model constructs.</li>
  * </ul>
  */
+@org.springframework.lang.NonNullApi
 package it.laskaridis.payments.clearing.view.json;

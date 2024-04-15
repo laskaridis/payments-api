@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-public class ClearingCostForm extends JsonViewForm<ClearingCost> {
+public final class ClearingCostForm extends JsonViewForm<ClearingCost> {
 
     public ClearingCostForm(Money money) {
         this.clearingCostAmount = money.amount();
@@ -26,7 +26,7 @@ public class ClearingCostForm extends JsonViewForm<ClearingCost> {
 
     @Override
     public ClearingCost toModel() {
-        ClearingCost cost = new ClearingCost();
+        var cost = new ClearingCost();
         cost.setClearingCostAmount(getClearingCostAmount());
         cost.setClearingCostCurrency(getClearingCostCurrency());
         return cost;

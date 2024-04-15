@@ -2,8 +2,11 @@ package it.laskaridis.payments.clearing.controller;
 
 import it.laskaridis.payments.clearing.model.ClearingCost;
 import it.laskaridis.payments.clearing.model.ClearingCostService;
-import it.laskaridis.payments.clearing.view.json.*;
-import it.laskaridis.payments.common.model.Money;
+import it.laskaridis.payments.clearing.view.json.CardClearingCostView;
+import it.laskaridis.payments.clearing.view.json.CardNumberForm;
+import it.laskaridis.payments.clearing.view.json.ClearingCostForm;
+import it.laskaridis.payments.clearing.view.json.ClearingCostView;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,26 +19,23 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class ClearingCostController {
+@RequiredArgsConstructor
+class ClearingCostController {
 
     private final ClearingCostService service;
 
-    public ClearingCostController(ClearingCostService clearingCosts) {
-        this.service = clearingCosts;
-    }
-
     @GetMapping("/clearing_costs")
-    public List<ClearingCostView> index() {
+    List<ClearingCostView> index() {
         return this.service.getClearingCostsRepository()
                 .stream()
                 .map(ClearingCostView::fromModel)
                 .collect(Collectors.toList());
     }
     @GetMapping("/countries/{country}/clearing_cost")
-    public ResponseEntity<ClearingCostView> show(@PathVariable final String country) {
+    ResponseEntity<ClearingCostView> show(@PathVariable final String country) {
 
-        var model = this.service.getClearingCost(country);
-        var view = new ClearingCostView(model);
+        final var model = this.service.getClearingCost(country);
+        final var view = new ClearingCostView(model);
 
         return ResponseEntity
                 .ok()
@@ -43,29 +43,29 @@ public class ClearingCostController {
                 .body(view);
     }
 
-    private String getEtagFor(ClearingCost model) {
+    private String getEtagFor(final ClearingCost model) {
         return String.valueOf(model.getVersion());
     }
 
     @PostMapping("/countries/{country}/clearing_cost")
-    public ResponseEntity<ClearingCostView> create(@PathVariable final String country,
-                                                   @RequestBody final ClearingCostForm form) {
+    ResponseEntity<ClearingCostView> create(@PathVariable final String country,
+                                            @RequestBody final ClearingCostForm form) {
 
-        var cost = form.toModel().getClearingCost();
-        var model = this.service.createClearingCost(country, cost);
-        var view = new ClearingCostView(model);
-        var location = new ClearingCostResource(model).getLocation();
+        final var cost = form.toModel().getClearingCost();
+        final var model = this.service.createClearingCost(country, cost);
+        final var view = new ClearingCostView(model);
+        final var location = new ClearingCostResource(model).getLocation();
 
         return ResponseEntity.created(location).body(view);
     }
 
     @PutMapping("/countries/{country}/clearing_cost")
     @PatchMapping("/countries/{country}/clearing_cost")
-    public ClearingCostView update(@PathVariable final String country,
-                                   @RequestBody final ClearingCostForm form) {
+    ClearingCostView update(@PathVariable final String country,
+                            @RequestBody final ClearingCostForm form) {
 
-        Money cost = form.toModel().getClearingCost();
-        var model = this.service.updateClearingCost(country, cost);
+        final var cost = form.toModel().getClearingCost();
+        final var model = this.service.updateClearingCost(country, cost);
 
         return new ClearingCostView(model);
     }
@@ -77,9 +77,8 @@ public class ClearingCostController {
     }
 
     @PostMapping("/payment-cards-cost")
-    public CardClearingCostView getClearingCost(@RequestBody CardNumberForm form) {
-        var model = this.service.getClearingCost(form.toModel());
+    CardClearingCostView getClearingCost(@RequestBody final CardNumberForm form) {
+        final var model = this.service.getClearingCost(form.toModel());
         return new CardClearingCostView(model);
     }
-
 }

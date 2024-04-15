@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.laskaridis.payments.clearing.model.CardIssuer;
 import it.laskaridis.payments.common.view.json.EntityModelJsonViewAdapter;
 
-public class CardIssuerView extends EntityModelJsonViewAdapter<CardIssuer> {
+public final class CardIssuerView extends EntityModelJsonViewAdapter<CardIssuer> {
 
     public CardIssuerView(CardIssuer model) {
         super(model);

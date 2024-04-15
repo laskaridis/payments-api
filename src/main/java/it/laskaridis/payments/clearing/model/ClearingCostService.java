@@ -5,7 +5,7 @@ import it.laskaridis.payments.bintable.BintableData;
 import it.laskaridis.payments.common.model.Money;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validation;
-import jakarta.validation.Validator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -23,24 +23,14 @@ import static org.springframework.util.Assert.notNull;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ClearingCostService {
 
     private static final String CLEARING_COSTS_CACHE = "clearingCosts";
 
     private final ClearingCostRepository clearingCostsRepository;
-
     private final CardIssuerService cardIssuerService;
-
     private final BintableClient bintableClient;
-
-    public ClearingCostService(ClearingCostRepository clearingCosts,
-                               CardIssuerService creditCards,
-                               BintableClient bintableClient) {
-
-        this.clearingCostsRepository = clearingCosts;
-        this.cardIssuerService = creditCards;
-        this.bintableClient = bintableClient;
-    }
 
     /**
      * Returns all {@link ClearingCost}s.
@@ -163,25 +153,25 @@ public class ClearingCostService {
      *   the card issuer's country
      */
     @Transactional
-    public ClearingCost getClearingCost(PrimaryAccountNumber number) {
+    public ClearingCost getClearingCost(final PrimaryAccountNumber number) {
         validate(number);
 
-        CardIssuer issuer;
-        String iin = number.getIssuerIdentificationNumber();
+        final CardIssuer issuer;
+        final String iin = number.getIssuerIdentificationNumber();
 
-        Optional<CardIssuer> possibleCardIssuer = this.cardIssuerService.getCardIssuer(iin);
+        final Optional<CardIssuer> possibleCardIssuer = this.cardIssuerService.getCardIssuer(iin);
         if (possibleCardIssuer.isPresent()) {
             issuer = possibleCardIssuer.get();
             return issuer.getClearingCost();
         } else {
-            var data = getCreditCardIssuerData(number);
+            final var data = getCreditCardIssuerData(number);
             var country = data.getCountry().getCode();
 
             issuer = new CardIssuer();
             issuer.setBankCountryCode(country);
             issuer.setIssuerIdentificationNumber(iin);
 
-            var cost = this.clearingCostsRepository
+            final var cost = this.clearingCostsRepository
                 .findByCardIssuingCountry(country)
                 .orElseThrow(() -> new ClearingCostNotFoundException(country));
 
@@ -199,7 +189,7 @@ public class ClearingCostService {
      * @return the credit card details
      * @throws CreditCardDetailsNotFoundException when details cannot be retrieved
      */
-    private BintableData getCreditCardIssuerData(PrimaryAccountNumber number) {
+    private BintableData getCreditCardIssuerData(final PrimaryAccountNumber number) {
         try {
             return this.bintableClient.getCreditCardDetails(number.getIssuerIdentificationNumber());
         } catch (Throwable e) {
@@ -214,9 +204,9 @@ public class ClearingCostService {
      * @param number the credit card number to validate
      * @throws ConstraintViolationException when invalid
      */
-    private void validate(PrimaryAccountNumber number) {
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        var errors = validator.validate(number);
+    private void validate(final PrimaryAccountNumber number) {
+        final var validator = Validation.buildDefaultValidatorFactory().getValidator();
+        final var errors = validator.validate(number);
         if (not(errors.isEmpty())) {
             throw new ConstraintViolationException(errors);
         }

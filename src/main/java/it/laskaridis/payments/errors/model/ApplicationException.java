@@ -20,7 +20,7 @@ public class ApplicationException extends RuntimeException {
 
     private final boolean retryable;
 
-    public ApplicationException(String code, String description, boolean retryable) {
+    public ApplicationException(final String code, final String description, boolean retryable) {
         this.code = code;
         this.description = description;
         this.retryable = retryable;
