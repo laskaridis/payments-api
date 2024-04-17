@@ -11,24 +11,23 @@ class ExactLengthFieldValidator<T extends EntityModel> extends FieldValidator<T>
 
     private final int exactLength;
 
-    protected ExactLengthFieldValidator(final String fieldName, int exactLength) {
+    protected ExactLengthFieldValidator(final String fieldName, final int exactLength) {
         super(fieldName);
         this.exactLength = exactLength;
     }
 
     @Override
     boolean isValid(final T instance) {
-        final String fieldName = getFieldName();
-
-        final Optional<Length> lengthAnnotation = IntrospectionUtils.getFieldAnnotation(instance, Length.class, fieldName);
+        final var fieldName = getFieldName();
+        final var lengthAnnotation = IntrospectionUtils.getFieldAnnotation(instance, Length.class, fieldName);
         if (lengthAnnotation.isPresent()
                 && lengthAnnotation.get().min() == this.exactLength
                 && lengthAnnotation.get().max() == this.exactLength) {
             return FIELD_VALID;
         }
 
-        final Optional<Max> maxAnnotation = IntrospectionUtils.getFieldAnnotation(instance, Max.class, fieldName);
-        final Optional<Min> minAnnotation = IntrospectionUtils.getFieldAnnotation(instance, Min.class, fieldName);
+        final var maxAnnotation = IntrospectionUtils.getFieldAnnotation(instance, Max.class, fieldName);
+        final var minAnnotation = IntrospectionUtils.getFieldAnnotation(instance, Min.class, fieldName);
         if (maxAnnotation.isPresent() && minAnnotation.isPresent()
                 && maxAnnotation.get().value() == this.exactLength
                 && minAnnotation.get().value() == this.exactLength) {

@@ -17,11 +17,11 @@ public final class BintableClientConfig {
     private final int writeTimeoutMillis;
 
     public BintableClientConfig(
-            String apiKey,
-            String baseUrl,
-            int connectTimeoutMillis,
-            int readTimeoutMillis,
-            int writeTimeoutMillis) {
+            final String apiKey,
+            final String baseUrl,
+            final int connectTimeoutMillis,
+            final int readTimeoutMillis,
+            final int writeTimeoutMillis) {
 
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;

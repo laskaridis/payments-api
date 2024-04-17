@@ -20,26 +20,38 @@ import static org.springframework.http.HttpStatus.*;
 public class ErrorHandler {
 
     @ExceptionHandler({ ResourceNotFoundException.class })
-    public ResponseEntity<ClientErrorView> handleNotFoundException(ResourceNotFoundException e, WebRequest request) {
+    public ResponseEntity<ClientErrorView> handleNotFoundException(
+            final ResourceNotFoundException e,
+            final WebRequest request) {
+
         log.debug(e.getMessage());
         return ResponseEntity.status(NOT_FOUND).body(ClientErrorView.from(e));
     }
 
     @ExceptionHandler({ ResourceAlreadyTakenException.class })
-    public ResponseEntity<ClientErrorView> handleNotFoundException(ResourceAlreadyTakenException e, WebRequest request) {
+    public ResponseEntity<ClientErrorView> handleNotFoundException(
+            final ResourceAlreadyTakenException e,
+            final WebRequest request) {
+
         log.debug(e.getMessage());
         return ResponseEntity.status(UNPROCESSABLE_ENTITY).body(ClientErrorView.from(e));
     }
 
     @ExceptionHandler({ ConstraintViolationException.class })
-    public ResponseEntity<List<ClientValidationErrorView>> handleConstraintViolationException(ConstraintViolationException e, WebRequest request) {
+    public ResponseEntity<List<ClientValidationErrorView>> handleConstraintViolationException(
+            final ConstraintViolationException e,
+            final WebRequest request) {
+
         log.debug(e.getMessage());
-        List<ClientValidationErrorView> errors = ClientValidationErrorView.from(e.getConstraintViolations());
+        final var errors = ClientValidationErrorView.from(e.getConstraintViolations());
         return ResponseEntity.status(UNPROCESSABLE_ENTITY).body(errors);
     }
 
     @ExceptionHandler({ UnsupportedOperationException.class })
-    public ResponseEntity<Void> handleUnsupportedOperatorException(UnsupportedOperationException e, WebRequest request) {
+    public ResponseEntity<Void> handleUnsupportedOperatorException(
+            final UnsupportedOperationException e,
+            final WebRequest request) {
+
         log.debug(e.getMessage());
         return ResponseEntity.status(NOT_IMPLEMENTED).build();
     }

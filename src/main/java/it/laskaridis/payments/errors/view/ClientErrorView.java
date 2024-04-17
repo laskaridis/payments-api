@@ -13,7 +13,7 @@ public class ClientErrorView {
      * Factory method to create a {@link ClientErrorView} (view) instance from a corresponding
      * {@link ApplicationException} model.
      */
-    public static ClientErrorView from(ApplicationException exception) {
+    public static ClientErrorView from(final ApplicationException exception) {
         return new ClientErrorView(
                 exception.getCode(),
                 exception.getDescription(),
@@ -29,7 +29,7 @@ public class ClientErrorView {
     @JsonProperty("request_retryable")
     private final boolean requestRetryable;
 
-    public ClientErrorView(String errorCode, String errorDescription, boolean requestRetryable) {
+    public ClientErrorView(final String errorCode, final String errorDescription, final boolean requestRetryable) {
         Assert.notNull(errorCode, "errorCode can't be null");
         Assert.notNull(errorDescription, "errorDescription can't be null");
 

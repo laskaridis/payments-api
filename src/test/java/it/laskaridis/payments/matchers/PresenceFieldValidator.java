@@ -15,10 +15,10 @@ class PresenceFieldValidator<T extends EntityModel> extends FieldValidator<T> {
 
     @Override
     boolean isValid(final T instance) {
-        final String fieldName = getFieldName();
-        final Optional<NotNull> notNullAnnotation = IntrospectionUtils.getFieldAnnotation(instance, NotNull.class, fieldName);
-        final Optional<NotEmpty> notEmptyAnnotation = IntrospectionUtils.getFieldAnnotation(instance, NotEmpty.class, fieldName);
-        final Optional<NotBlank> notBlankAnnotation = IntrospectionUtils.getFieldAnnotation(instance, NotBlank.class, fieldName);
+        final var fieldName = getFieldName();
+        final var notNullAnnotation = IntrospectionUtils.getFieldAnnotation(instance, NotNull.class, fieldName);
+        final var notEmptyAnnotation = IntrospectionUtils.getFieldAnnotation(instance, NotEmpty.class, fieldName);
+        final var notBlankAnnotation = IntrospectionUtils.getFieldAnnotation(instance, NotBlank.class, fieldName);
         return notNullAnnotation.isPresent()
                 || notEmptyAnnotation.isPresent()
                 || notBlankAnnotation.isPresent();

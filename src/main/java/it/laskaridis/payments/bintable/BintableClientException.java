@@ -1,8 +1,8 @@
 package it.laskaridis.payments.bintable;
 
-public class BintableClientException extends Exception {
+public final class BintableClientException extends Exception {
 
-    public BintableClientException(String message) {
+    public BintableClientException(final String message) {
         super(message);
     }
 }

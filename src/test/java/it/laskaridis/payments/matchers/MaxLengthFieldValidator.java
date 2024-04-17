@@ -12,23 +12,20 @@ class MaxLengthFieldValidator<T extends EntityModel> extends FieldValidator<T> {
 
     private final int maxValue;
 
-    protected MaxLengthFieldValidator(String fieldName, int maxValue) {
+    protected MaxLengthFieldValidator(final String fieldName, final int maxValue) {
         super(fieldName);
         this.maxValue = maxValue;
     }
 
     @Override
     boolean isValid(final T instance) {
-        final String fieldName = getFieldName();
-
-        final Optional<Max> maxAnnotation = getFieldAnnotation(instance, Max.class, fieldName);
+        final var fieldName = getFieldName();
+        final var maxAnnotation = getFieldAnnotation(instance, Max.class, fieldName);
         if (maxAnnotation.isPresent() && maxAnnotation.get().value() == this.maxValue)
             return FIELD_VALID;
-
-        final Optional<Length> lengthAnnotation = getFieldAnnotation(instance, Length.class, fieldName);
+        final var lengthAnnotation = getFieldAnnotation(instance, Length.class, fieldName);
         if (lengthAnnotation.isPresent() && lengthAnnotation.get().max() == this.maxValue)
             return FIELD_VALID;
-
         return FIELD_INVALID;
     }
 

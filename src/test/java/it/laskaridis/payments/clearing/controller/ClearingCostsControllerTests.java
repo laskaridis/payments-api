@@ -46,22 +46,22 @@ public class ClearingCostsControllerTests {
     @Test
     public void shouldCreateClearingCost_WhenNotExist() throws Exception {
         // Given
-        var country = "gr";
-        var form = new ClearingCostForm(Money.of(200.0, "EUR"));
+        final var country = "gr";
+        final var form = new ClearingCostForm(Money.of(200.0, "EUR"));
 
         // When
-        var response = this.api.perform(post("/api/v1/countries/{code}/clearing_cost", country)
+        final var response = this.api.perform(post("/api/v1/countries/{code}/clearing_cost", country)
             .contentType(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
             .content(this.json.writeValueAsString(form)));
 
         // Then
-        var actual = this.costs.findByCardIssuingCountry(country).get();
+        final var actual = this.costs.findByCardIssuingCountry(country).get();
         assertThat(actual.getCardIssuingCountry()).isEqualTo(country);
         assertThat(actual.getClearingCostCurrency()).isEqualTo(form.getClearingCostCurrency());
         assertThat(actual.getClearingCostAmount()).isEqualTo(form.getClearingCostAmount());
 
-        var location = new ClearingCostResource(actual).getLocation();
+        final var location = new ClearingCostResource(actual).getLocation();
         response.andExpect(status().isCreated())
             .andExpect(header().stringValues("Location", location.toString()))
             .andExpect(jsonPath("$.id").value(actual.getId().toString()))
@@ -75,8 +75,8 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldNotCreateClearingCost_WhenAlreadyPresent() throws Exception {
-        var anExistingClearingCost = this.fixtures.createClearingCost();
-        var country = anExistingClearingCost.getCardIssuingCountry();
+        final var anExistingClearingCost = this.fixtures.createClearingCost();
+        final var country = anExistingClearingCost.getCardIssuingCountry();
 
         this.api.perform(post("/api/v1/countries/{code}/clearing_cost", country)
             .contentType(APPLICATION_JSON)
@@ -88,23 +88,23 @@ public class ClearingCostsControllerTests {
     @Test
     public void shouldUpdateClearingCost_WhenFound() throws Exception {
         // Given
-        var cost = this.fixtures.createClearingCostWith("gr", "USD", 100.0);
-        var country = cost.getCardIssuingCountry();
-        var form = new ClearingCostForm(Money.of(200.0, "EUR"));
+        final var expectedCost = this.fixtures.createClearingCostWith("gr", "USD", 100.0);
+        final var country = expectedCost.getCardIssuingCountry();
+        final var form = new ClearingCostForm(Money.of(200.0, "EUR"));
 
         // When
-        ResultActions response = this.api.perform(put("/api/v1/countries/{code}/clearing_cost", country)
+        final var response = this.api.perform(put("/api/v1/countries/{code}/clearing_cost", country)
             .contentType(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
             .content(this.json.writeValueAsString(form)));
 
         // Then
-        cost = this.costs.findById(cost.getId()).get();
-        assertThat(cost.getClearingCostAmount()).isEqualTo(form.getClearingCostAmount());
-        assertThat(cost.getClearingCostCurrency()).isEqualTo(form.getClearingCostCurrency());
+        final var actualCost = this.costs.findById(expectedCost.getId()).get();
+        assertThat(actualCost.getClearingCostAmount()).isEqualTo(form.getClearingCostAmount());
+        assertThat(actualCost.getClearingCostCurrency()).isEqualTo(form.getClearingCostCurrency());
 
         response.andExpect(status().isOk())
-            .andExpect(jsonPath("$.id").value(cost.getId().toString()))
+            .andExpect(jsonPath("$.id").value(actualCost.getId().toString()))
             .andExpect(jsonPath("$.version").exists())
             .andExpect(jsonPath("$.created_at").exists())
             .andExpect(jsonPath("$.last_modified_at").exists())
@@ -115,8 +115,8 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldNotUpdateClearingCost_WhenNotFound() throws Exception {
-        var anInvalidCountry = "xx";
-        var form = new ClearingCostForm(Money.of(200.0, "EUR"));
+        final var anInvalidCountry = "xx";
+        final var form = new ClearingCostForm(Money.of(200.0, "EUR"));
 
         this.api.perform(put("/api/v1/countries/{code}/clearing_cost", anInvalidCountry)
             .contentType(APPLICATION_JSON)
@@ -128,23 +128,23 @@ public class ClearingCostsControllerTests {
     @Test
     public void shouldDeleteClearingCost_WhenFound() throws Exception {
         // Given
-        var cost = this.fixtures.createClearingCostWith("gr", "USD", 100.0);
-        var country = cost.getCardIssuingCountry();
+        final var cost = this.fixtures.createClearingCostWith("gr", "USD", 100.0);
+        final var country = cost.getCardIssuingCountry();
 
         // When
-        var response = this.api.perform(delete("/api/v1/countries/{code}/clearing_cost", country)
+        this.api.perform(delete("/api/v1/countries/{code}/clearing_cost", country)
             .contentType(APPLICATION_JSON)
             .accept(APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Then
-        var actual = this.costs.findById(cost.getId());
+        final var actual = this.costs.findById(cost.getId());
         assertThat(actual).isEmpty();
     }
 
     @Test
     public void shouldNotDeleteClearingCost_WhenNotFound() throws Exception {
-        var anInvalidCountry = "xx";
+        final var anInvalidCountry = "xx";
 
         this.api.perform(delete("/api/v1/countries/{code}/clearing_cost", anInvalidCountry)
             .contentType(APPLICATION_JSON)
@@ -154,8 +154,8 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldRetrieveClearingCost_WhenFound() throws Exception {
-        var cost = this.fixtures.createClearingCostWith("uk", "USD", 100.0);
-        var country = cost.getCardIssuingCountry();
+        final var cost = this.fixtures.createClearingCostWith("uk", "USD", 100.0);
+        final var country = cost.getCardIssuingCountry();
 
         this.api.perform(get("/api/v1/countries/{code}/clearing_cost", country)
             .contentType(APPLICATION_JSON)
@@ -173,7 +173,7 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldNotRetrieveClearingCost_WhenNotFound() throws Exception {
-        var anInvalidCountry = "xx";
+        final var anInvalidCountry = "xx";
 
         this.api.perform(get("/api/v1/countries/{code}/clearing_cost", anInvalidCountry)
             .contentType(APPLICATION_JSON)
@@ -183,9 +183,9 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldRetrieveClearingCostByCreditCardNumber_whenCreditCardFound() throws Exception {
-        BintableData card = buildCreditCardLookupResponseWithCounty("de");
-        var cost = this.fixtures.createClearingCostWith("de", "EUR", 100.0);
-        var form = new CardNumberForm();
+        final var card = buildCreditCardLookupResponseWithCounty("de");
+        final var cost = this.fixtures.createClearingCostWith("de", "EUR", 100.0);
+        final var form = new CardNumberForm();
         form.setCardNumber("1234567890");
 
         when(this.creditCardLookupClient
@@ -203,7 +203,7 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldNotRetrieveClearingCostByCreditCardNumber_whenCreditCardNotFound() throws Exception {
-        var form = new CardNumberForm();
+        final var form = new CardNumberForm();
         form.setCardNumber("1234567890");
 
         when(this.creditCardLookupClient
@@ -219,9 +219,9 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldNotRetrieveClearingCostByCreditCardNumber_whenClearingCostNotFound() throws Exception {
-        var card = buildCreditCardLookupResponseWithCounty("de");
+        final var card = buildCreditCardLookupResponseWithCounty("de");
         assertThat(this.costs.findByCardIssuingCountry("de")).isEmpty();
-        var form = new CardNumberForm();
+        final var form = new CardNumberForm();
         form.setCardNumber("1234567890");
 
         when(this.creditCardLookupClient
@@ -237,7 +237,7 @@ public class ClearingCostsControllerTests {
 
     @Test
     public void shouldNotRetrieveClearingCostByCreditCardNumber_whenCreditCardNumberInvalid() throws Exception {
-        var form = new CardNumberForm();
+        final var form = new CardNumberForm();
         form.setCardNumber("invalid");
 
         this.api.perform(post("/api/v1/payment-cards-cost")
@@ -248,9 +248,9 @@ public class ClearingCostsControllerTests {
     }
 
     private static BintableData buildCreditCardLookupResponseWithCounty(String countryCode) {
-        var country = new BintableDataCountry();
+        final var country = new BintableDataCountry();
         country.setCode(countryCode);
-        var card = new BintableData();
+        final var card = new BintableData();
         card.setCountry(country);
         return card;
     }

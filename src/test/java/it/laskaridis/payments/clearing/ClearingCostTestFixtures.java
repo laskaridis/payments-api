@@ -8,20 +8,23 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 @Component
-public class ClearingCostTestFixtures {
+public final class ClearingCostTestFixtures {
 
     @Autowired
     private ClearingCostRepository repository;
 
-    public ClearingCost buildClearingCostWith(String country, String currency, Double amount) {
-        ClearingCost clearingCost = new ClearingCost();
+    public ClearingCost buildClearingCostWith(final String country,
+                                              final String currency,
+                                              final Double amount) {
+
+        final var clearingCost = new ClearingCost();
         clearingCost.setClearingCostAmount(BigDecimal.valueOf(amount));
         clearingCost.setClearingCostCurrency(currency);
         clearingCost.setCardIssuingCountry(country);
         return clearingCost;
     }
 
-    public ClearingCost buildClearingCostWith(String country) {
+    public ClearingCost buildClearingCostWith(final String country) {
         return this.buildClearingCostWith(country, "USD", 100.0);
     }
 
@@ -30,12 +33,15 @@ public class ClearingCostTestFixtures {
     }
 
     public ClearingCost createClearingCost() {
-        ClearingCost clearingCost = buildClearingCost();
+        final var clearingCost = buildClearingCost();
         return this.repository.save(clearingCost);
     }
 
-    public ClearingCost createClearingCostWith(String country, String currency, Double amount) {
-        ClearingCost clearingCost = buildClearingCostWith(country, currency, amount);
+    public ClearingCost createClearingCostWith(final String country,
+                                               final String currency,
+                                               final Double amount) {
+
+        final var clearingCost = buildClearingCostWith(country, currency, amount);
         return this.repository.save(clearingCost);
     }
 

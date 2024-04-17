@@ -25,7 +25,7 @@ final class IntrospectionUtils {
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
-        T annotation= field.getAnnotation(annotationClass);
+        final T annotation= field.getAnnotation(annotationClass);
         return Optional.ofNullable(annotation);
     }
 

@@ -38,7 +38,7 @@ public class BintableClient {
 
     private WebClient createWebClient() {
         // configures connection timeouts:
-        HttpClient http = HttpClient.create();
+        final var http = HttpClient.create();
         http.option(CONNECT_TIMEOUT_MILLIS, this.config.getConnectTimeoutMillis())
             .responseTimeout(Duration.ofMillis(this.config.getConnectTimeoutMillis()))
             .doOnConnected(connection -> connection
@@ -55,10 +55,10 @@ public class BintableClient {
             .build();
     }
 
-    public BintableData getCreditCardDetails(String iin) throws BintableClientException {
+    public BintableData getCreditCardDetails(final String iin) throws BintableClientException {
         log.debug("initiating lookup for IIN: {}", iin);
-        var url = this.config.getBaseUrl() + "/{number}?api_key={apiKey}";
-        var mono = this.client.get()
+        final var url = this.config.getBaseUrl() + "/{number}?api_key={apiKey}";
+        final var mono = this.client.get()
             .uri(url, iin, this.config.getApiKey())
             .accept(APPLICATION_JSON)
             .acceptCharset(UTF_8)
@@ -69,7 +69,7 @@ public class BintableClient {
             })
             .bodyToMono(BintableResponse.class);
 
-        var response = mono.block();
+        final var response = mono.block();
         if (response.getResult() == 200) {
             return response.getData();
         } else {

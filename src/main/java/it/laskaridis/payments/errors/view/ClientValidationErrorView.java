@@ -26,7 +26,7 @@ public class ClientValidationErrorView extends ClientErrorView {
      * @return a view representing the {@link ConstraintViolation}
      * @throws NullPointerException when specified violation is null
      */
-    public static ClientValidationErrorView from(ConstraintViolation<?> violation) {
+    public static ClientValidationErrorView from(final ConstraintViolation<?> violation) {
         Assert.notNull(violation, "violation can't be null");
 
         return new ClientValidationErrorView(
@@ -41,7 +41,7 @@ public class ClientValidationErrorView extends ClientErrorView {
      * @param violations the set of {@link ConstraintViolation}s
      * @return a {@link List} of view objects representing the specified {@link ConstraintViolation}s
      */
-    public static List<ClientValidationErrorView> from(Set<ConstraintViolation<?>> violations) {
+    public static List<ClientValidationErrorView> from(final Set<ConstraintViolation<?>> violations) {
         return violations.stream()
                 .map(ClientValidationErrorView::from)
                 .collect(toList());
@@ -56,7 +56,10 @@ public class ClientValidationErrorView extends ClientErrorView {
     @JsonProperty("invalid_field_error")
     private final String invalidFieldError;
 
-    public ClientValidationErrorView(String invalidResource, String invalidField, String invalidFieldError) {
+    public ClientValidationErrorView(final String invalidResource,
+                                     final String invalidField,
+                                     final String invalidFieldError) {
+
         super(format("ValidationError.%s", invalidResource),
                 format("field `%s` is invalid", invalidField), true);
 

@@ -11,7 +11,7 @@ public class BintableClientResponseTests {
 
     @Test
     public void shouldParseCorrectly() throws IOException {
-        String json = """
+        final var json = """
         {
            "result": 200,
            "message": "SUCCESS",
@@ -40,13 +40,13 @@ public class BintableClientResponseTests {
         }
         """;
 
-        ObjectMapper parser = new ObjectMapper();
+        final var parser = new ObjectMapper();
 
-        BintableResponse result = parser.reader().readValue(json, BintableResponse.class);
+        final var result = parser.reader().readValue(json, BintableResponse.class);
         assertThat(result.getResult()).isEqualTo(200);
         assertThat(result.getMessage()).isEqualTo("SUCCESS");
 
-        BintableDataCard card = result.getData().getCard();
+        final var card = result.getData().getCard();
         assertThat(card.getScheme()).isEqualTo("Visa");
         assertThat(card.getType()).isEqualTo("Debit");
         assertThat(card.getCategory()).isEqualTo("Corporate t&e");
@@ -54,13 +54,13 @@ public class BintableClientResponseTests {
         assertThat(card.getCheckLuhn()).isEqualTo(1);
         assertThat(card.getCvvLen()).isEqualTo(3);
 
-        BintableDataCountry country = result.getData().getCountry();
+        final var country = result.getData().getCountry();
         assertThat(country.getName()).isEqualTo("Egypt");
         assertThat(country.getCode()).isEqualTo("eg");
         assertThat(country.getCurrency()).isEqualTo("Egyptian pound");
         assertThat(country.getCurrencyCode()).isEqualTo("EGP");
 
-        BintableDataBank bank = result.getData().getBank();
+        final var bank = result.getData().getBank();
         assertThat(bank.getName()).isEqualTo("ARAB INTERNATIONAL BANK");
         assertThat(bank.getWebsite()).isEqualTo("http://www.aib.com.eg:81/web/wps/portal/enaib");
         assertThat(bank.getPhone()).isEqualTo("23918794");

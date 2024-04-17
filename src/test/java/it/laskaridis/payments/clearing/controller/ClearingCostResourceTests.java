@@ -12,12 +12,12 @@ public class ClearingCostResourceTests {
     @Test
     public void shouldReturnResourceLocation() {
         // Given
-        var cost = new ClearingCost();
+        final var cost = new ClearingCost();
         cost.setCardIssuingCountry("gr");
-        var subject = new ClearingCostResource(cost);
+        final var subject = new ClearingCostResource(cost);
 
         // When
-        URI location = subject.getLocation();
+        final var location = subject.getLocation();
 
         // Then
         assertThat(location.toString()).isEqualTo("/countries/gr/clearing_cost");

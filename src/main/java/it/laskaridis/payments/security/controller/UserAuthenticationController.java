@@ -2,6 +2,7 @@ package it.laskaridis.payments.security.controller;
 
 import it.laskaridis.payments.security.model.UserService;
 import it.laskaridis.payments.security.view.json.UserAuthenticationForm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,17 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class UserAuthenticationController {
 
     private final UserService userService;
 
-    public UserAuthenticationController(UserService userService) {
-        this.userService = userService;
-    }
-
     @PostMapping("/logins")
-    public ResponseEntity<Void> login(@RequestBody UserAuthenticationForm credentials) {
-        var jwt = this.userService.authenticate(credentials.toModel());
+    public ResponseEntity<Void> login(@RequestBody final UserAuthenticationForm credentials) {
+        final var jwt = this.userService.authenticate(credentials.toModel());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwt))
                 .build();

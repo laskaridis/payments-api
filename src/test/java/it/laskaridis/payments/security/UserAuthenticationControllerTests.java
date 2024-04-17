@@ -29,13 +29,13 @@ public class UserAuthenticationControllerTests {
 
     @Test
     public void shouldAuthenticateUser_whenCredentialsMatch() throws Exception {
-        var user = new User();
+        final var user = new User();
         user.setFullName("Jane Doe");
         user.setEmail("jane@localhost");
         user.setPassword("pass");
         this.userService.register(user);
 
-        var form = new UserAuthenticationForm("jane@localhost", "pass");
+        final var form = new UserAuthenticationForm("jane@localhost", "pass");
 
         this.api.perform(post("/api/v1/logins")
             .contentType(APPLICATION_JSON)
@@ -47,13 +47,13 @@ public class UserAuthenticationControllerTests {
 
     @Test
     public void shouldNotAuthenticateUser_whenCredentialsDontMatch() throws Exception {
-        var user = new User();
+        final var user = new User();
         user.setFullName("Jane Doe");
         user.setEmail("jane@localhost");
         user.setPassword("pass");
         this.userService.register(user);
 
-        var form = new UserAuthenticationForm(user.getEmail(), user.getPassword());
+        final var form = new UserAuthenticationForm(user.getEmail(), user.getPassword());
 
         this.api.perform(post("/api/v1/logins")
             .contentType(APPLICATION_JSON)

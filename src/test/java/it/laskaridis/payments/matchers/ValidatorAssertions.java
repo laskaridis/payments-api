@@ -15,15 +15,15 @@ import org.assertj.core.api.AbstractAssert;
  */
 public class ValidatorAssertions<T extends EntityModel> extends AbstractAssert<ValidatorAssertions<T>, T> {
 
-    public static <T extends EntityModel> ValidatorAssertions<T> assertThat(T model) {
+    public static <T extends EntityModel> ValidatorAssertions<T> assertThat(final T model) {
         return new ValidatorAssertions(model, ValidatorAssertions.class);
     }
 
-    protected ValidatorAssertions(T t, Class<?> selfType) {
+    protected ValidatorAssertions(final T t, final Class<?> selfType) {
         super(t, selfType);
     }
 
-    protected ValidatorAssertions(T t, Class<?> selfType, String fieldName) {
+    protected ValidatorAssertions(final T t, final Class<?> selfType, final String fieldName) {
         super(t, selfType);
         this.fieldName = fieldName;
     }
@@ -39,22 +39,22 @@ public class ValidatorAssertions<T extends EntityModel> extends AbstractAssert<V
         return this.fieldName;
     }
 
-    public ValidatorAssertions<T> shouldValidatePresenceOf(String fieldName) {
+    public ValidatorAssertions<T> shouldValidatePresenceOf(final String fieldName) {
         validateActualUsing(new PresenceFieldValidator<>(fieldName));
         return this;
     }
 
-    public NumericValueFieldValidator<T> shouldValidateMinimumValueOf(String fieldName) {
+    public NumericValueFieldValidator<T> shouldValidateMinimumValueOf(final String fieldName) {
         this.fieldName = fieldName;
         return new NumericValueFieldValidator<>(this);
     }
 
-    public FieldLengthValidators<T> shouldValidateLengthOf(String fieldName) {
+    public FieldLengthValidators<T> shouldValidateLengthOf(final String fieldName) {
         this.fieldName = fieldName;
         return new FieldLengthValidators<>(this.actual, this.myself.getClass(), this.fieldName);
     }
 
-    protected void validateActualUsing(FieldValidator<T> validator) {
+    protected void validateActualUsing(final FieldValidator<T> validator) {
         if (!validator.isValid(this.actual))
             failWithMessage(validator.getErrorMessage());
     }

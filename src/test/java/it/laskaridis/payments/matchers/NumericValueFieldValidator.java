@@ -9,11 +9,11 @@ import static it.laskaridis.payments.matchers.IntrospectionUtils.getFieldAnnotat
 
 public class NumericValueFieldValidator<T extends EntityModel> extends ValidatorAssertions<T> {
 
-    protected NumericValueFieldValidator(ValidatorAssertions<T> assertion) {
+    protected NumericValueFieldValidator(final ValidatorAssertions<T> assertion) {
         super(assertion.getActual(), assertion.getClass(), assertion.getFieldName());
     }
 
-    public ValidatorAssertions<T> isInclusivelyEqualTo(Long value) {
+    public ValidatorAssertions<T> isInclusivelyEqualTo(final Long value) {
         validateActualUsing(new InclusiveMinValidator<>(this.fieldName, value));
         return this;
     }
@@ -22,13 +22,13 @@ public class NumericValueFieldValidator<T extends EntityModel> extends Validator
 
         private final Long minValue;
 
-        protected InclusiveMinValidator(String fieldName, Long minValue) {
+        protected InclusiveMinValidator(final String fieldName, final Long minValue) {
             super(fieldName);
             this.minValue = minValue;
         }
 
         @Override
-        boolean isValid(T instance) {
+        boolean isValid(final T instance) {
             final String fieldName = getFieldName();
             final Optional<Min> minAnnotation = getFieldAnnotation(instance, Min.class, fieldName);
             if (minAnnotation.isPresent() && minValue.equals(minAnnotation.get().value())) {
