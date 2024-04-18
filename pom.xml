@@ -33,7 +33,7 @@
 		<commons-lang3.version>3.12.0</commons-lang3.version>
 		<json-path-assert.version>2.4.0</json-path-assert.version>
 		<liquibase-core.version>4.22.0</liquibase-core.version>
-		<postgresql.version>42.3.8</postgresql.version>
+		<postgresql.version>42.7.3</postgresql.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
 		<springdoc.version>1.6.6</springdoc.version>
 		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
